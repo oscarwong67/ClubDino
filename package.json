@@ -1,0 +1,48 @@
+{
+  "name": "clubdino",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-client": "webpack",
+    "build-client-watch": "webpack -w",
+    "heroku-postbuild": "webpack -p",
+    "deploy": "script/deploy",
+    "heroku-token": "script/encrypt-heroku-auth-token.js",
+    "lint": "eslint ./ --ignore-path .gitignore",
+    "lint-fix": "npm run lint -- --fix",
+    "prepare": "if [ -d .git ]; then npm-merge-driver install; fi",
+    "prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
+    "seed": "node script/seed.js",
+    "start": "node server",
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
+    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
+    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremyOlea/ClubDino.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JeremyOlea/ClubDino/issues"
+  },
+  "homepage": "https://github.com/JeremyOlea/ClubDino#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "axios": "^0.21.0",
+    "babel-loader": "^8.2.3",
+    "compression": "^1.7.4",
+    "express": "^4.17.3",
+    "express-session": "^1.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15",
+    "phaser": "^3.24.1",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^3.0.3"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
+  }
+}
