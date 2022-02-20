@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import WebFontFile from './webfont'
 
 export default class SpaceInvaders extends Phaser.Scene {
   constructor() {
@@ -26,9 +25,6 @@ export default class SpaceInvaders extends Phaser.Scene {
   }
 
   preload() {
-    const fonts = new WebFontFile(this.load,"Press Start 2P");
-    this.load.addFile(fonts);
-
     this.load.image("invaders.boom", "assets/invaders/boom.png");
     this.load.spritesheet("invaders.bullet", "assets/invaders/bullet.png", {
       frameWidth: 12,
@@ -266,7 +262,7 @@ export default class SpaceInvaders extends Phaser.Scene {
     this.scene.bringToTop();
   }
 
-  gameOver(text) {
+  gameOver() {
     this.invaders.setVelocityX(0);
 
     this.ship.setVisible(false);
@@ -274,13 +270,6 @@ export default class SpaceInvaders extends Phaser.Scene {
     this.bullet.setVisible(false);
 
     this.isGameOver = true;
-
-    const starttext = this.add.text(528, 365, text, {
-      fontSize: 24,
-      fontFamily: '"Press Start 2P"'
-      
-    })
-    .setOrigin(0.5)
   }
 
 
@@ -306,16 +295,16 @@ export default class SpaceInvaders extends Phaser.Scene {
     //  Invaders bounds
 
     if(!this.bottomRight && !this.topLeft) {
-      this.gameOver('WIN');
+      this.gameOver();
     }
 
     var moveDown = false;
 
     if (this.bottomRight && this.bottomRight.body.velocity.x > 0 && this.bottomRight.x >= 1000) {
-      this.invaders.setVelocityX(-80);
+      this.invaders.setVelocityX(-50);
       moveDown = true;
     } else if (this.topLeft && this.topLeft.body.velocity.x < 0 && this.topLeft.x <= 12) {
-      this.invaders.setVelocityX(80);
+      this.invaders.setVelocityX(50);
       moveDown = true;
     }
 
@@ -326,15 +315,15 @@ export default class SpaceInvaders extends Phaser.Scene {
       for (var i = 0; i < list.length; i++) {
         var vader = list[i];
 
-        vader.body.y += 30;
+        vader.body.y += 4;
 
         if (vader.active && vader.body.y > lowest) {
           lowest = vader.body.y;
         }
       }
 
-      if (lowest > 420) {
-        this.gameOver('GAMEOVER');
+      if (lowest > 240) {
+        this.gameOver();
       }
     }
   }

@@ -87,7 +87,7 @@ class Ppong extends Phaser.Scene {
     playerInput() {
       const body = this.paddleLeft.body;
 
-      if (this.cursors.up.isDown && this.paddleLeft.y > 50) {
+      if (this.cursors.up.isDown) {
         this.paddleLeft.y-=10;
         body.updateFromGameObject();
       } 

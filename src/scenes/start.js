@@ -38,7 +38,7 @@ export default class Start extends Phaser.Scene {
 
   create() {
     this.bgm = this.sound.add('bgm');
-    this.bgm.play({loop: true, mute: false, seek: 10000, pauseOnBlur: false});
+    this.bgm.play({loop: true, mute: false, seek: 3000});
     this.prepareCharacterAnimation();
     const scene = this;
     this.logo = this.add.image(this.cameras.main.width/2, 200, "logo").setOrigin(0.5);
