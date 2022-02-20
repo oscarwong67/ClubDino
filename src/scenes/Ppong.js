@@ -191,37 +191,6 @@ class Ppong extends Phaser.Scene {
   
     }
 
-    // resetPaddles() {
-    //   // Right side scores/Serves next
-    //   if (this.rightScore < this.newRightScore){
-    //     this.rightScore++;
-    //     this.ball.setPosition(523,300);
-    //     this.paddleLeft.x =50;
-    //     this.paddleLeft.y = 279;
-  
-    //     this.paddleRight.x =1006;
-    //     this.paddleRight.y = 279;
-  
-    //     const angle = Phaser.Math.Between(0, 360);
-    //     const vec = this.physics.velocityFromAngle(angle,250);
-  
-    //     this.ball.body.setVelocity(vec.x*5,vec.y*1.3);
-  
-    //   } 
-    //   else if (this.leftScore < this.newLeftScore) {
-    //     this.leftScore++;
-    //     this.ball.setPosition(523,300);
-    //     this.paddleLeft.x =50;
-    //     this.paddleLeft.y = 279;
-  
-    //     this.paddleRight.x =1006;
-    //     this.paddleRight.y = 279;
-  
-    //     const angle = Phaser.Math.Between(0, 360);
-    //     const vec = this.physics.velocityFromAngle(angle,250);
-    //   }
-    
-    // }
 }
 
 export default Ppong

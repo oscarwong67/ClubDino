@@ -19,6 +19,8 @@ import TFDL from './scenes/tfdl';
 import MacHall from './scenes/machall';
 import Start from "./scenes/start";
 import Idle from './scenes/idle';
+import PPMain from './scenes/ppmain';
+
 
 class Game extends Phaser.Game {
   constructor() {
@@ -32,29 +34,14 @@ class Game extends Phaser.Game {
     this.scene.add("TaskScene", TaskScene);
     this.scene.add("Idle", Idle);
 
+    // Ping pong controller scene
+    this.scene.add("PPMain",PPMain);
+
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
     this.scene.start("Start");
   }
 }
-// // const config = {
-// //     type: Phaser.AUTO,
-// //     width: 400,
-// //     height: 250, 
-// //     physics: {
-// //         default: 'arcade',
-// //         arcade: {
-// //           gravity: { y: 0 }
-// //         }
-// //     },
-// //     scene : [Preloader, TFDL],
-// //     scale: {
-// //       zoom: 2
-// //     }
-// // }
-
-// export default new Phaser.Game(config)
-
 // Create new instance of game
 window.onload = function () {
   window.game = new Game();
