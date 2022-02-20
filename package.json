@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-client": "webpack",
-    "build": "npm run build-client && npm run start-server",
+    "vercel-build": "npm run build-client",
     "build-client-watch": "webpack -w",
     "heroku-postbuild": "webpack -p",
     "deploy": "script/deploy",
