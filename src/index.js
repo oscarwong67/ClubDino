@@ -16,6 +16,7 @@ import Phaser from 'phaser';
 import config from "./config/config";
 import TFDL from './scenes/tfdl';
 import MacHall from './scenes/machall';
+import Start from "./scenes/start";
 
 class Game extends Phaser.Game {
   constructor() {
@@ -23,11 +24,13 @@ class Game extends Phaser.Game {
     super(config);
     // Add all the scenes
     // << ADD ALL SCENES HERE >>
-    this.scene.add("TFDL", TFDL);
+    this.scene.add("TFDL", TFDL)
+    this.scene.add("Start", Start)
     this.scene.add("MacHall", MacHall);
 
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
+    // this.scene.start("Start");
     this.scene.start("MacHall");
   }
 }

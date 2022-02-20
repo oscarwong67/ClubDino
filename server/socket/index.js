@@ -31,7 +31,7 @@ module.exports = (io) => {
       : socket.emit("keyNotValid");
     });
 
-    socket.on("joinRoom", (roomId) => {
+    socket.on("joinRoom", (roomId, name) => {
       socket.join(roomId);
       const roomInfo = gameRooms[roomId];
       // console.log("roomInfo", roomInfo);
@@ -40,6 +40,7 @@ module.exports = (io) => {
         x: 400,
         y: 300,
         playerId: socket.id,
+        name
       };
 
       // update number of players
@@ -122,7 +123,7 @@ module.exports = (io) => {
       const { message, roomId } = data;
       let chat = {
         timestamp: (new Date()).toLocaleTimeString(),
-        id: socket.id,
+        id: gameRooms[roomId].players[socket.id].name,
         message: message
       };
       console.log('sending: \"[' + chat.timestamp + "] " + chat.id + ": " + chat.message + '\" to room: ' + roomId);
