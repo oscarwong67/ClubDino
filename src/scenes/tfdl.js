@@ -75,7 +75,7 @@ export default class TFDL extends Phaser.Scene {
     controlPanel.setInteractive();
   }
 
-  checkOverlap(scene, player, controlPanel) {
+  checkOverlap(scene, player, controlPanel, SceneTitle) {
     const boundsPlayer = player.getBounds();
     const boundsPanel = controlPanel.getBounds();
     if (
@@ -84,7 +84,7 @@ export default class TFDL extends Phaser.Scene {
       scene.deactivateControlPanel(controlPanel);
     } else {
       console.log('overlap');
-      scene.scene.start("TaskScene", { ...scene.scene, socket: scene.socket });
+      scene.scene.start(SceneTitle, { ...scene.scene, socket: scene.socket });
       scene.physics.pause();
     }
   }
@@ -288,7 +288,7 @@ export default class TFDL extends Phaser.Scene {
     scene.pinpongTable.y = scene.pinpongTable.y + 90;
     scene.specialComputer.y = scene.specialComputer.y + 40;
     scene.studyDesk.y = scene.studyDesk.y + 40;
-    console.log('got pingpong table 12: ', scene.pinpongTable);
+    console.log('got pingpong table 5: ', scene.pinpongTable);
 
     // CREATE OTHER PLAYERS GROUP
     this.otherPlayers = this.physics.add.group();
@@ -499,17 +499,20 @@ export default class TFDL extends Phaser.Scene {
       scene.checkOverlap(
         scene,
         scene.astronaut,
-        scene.pinpongTable
+        scene.pinpongTable,
+        "TaskScene"
       );
       scene.checkOverlap(
         scene,
         scene.astronaut,
-        scene.specialComputer
+        scene.specialComputer,
+        "TaskScene"
       );
       scene.checkOverlap(
         scene,
         scene.astronaut,
-        scene.studyDesk
+        scene.studyDesk,
+        "TaskScene"
       );
     }
 
