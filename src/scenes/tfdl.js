@@ -3,6 +3,8 @@ import Phaser from "phaser";
 export default class TFDL extends Phaser.Scene {
   constructor() {
     super("TFDL");
+    this.roomId = "tfdl";
+    this.chatMessages = [];
     this.state = {};
   }  
 
@@ -39,25 +41,42 @@ export default class TFDL extends Phaser.Scene {
   }
 
   create() {
-    // Create Chat
-    this.textInput = this.add.dom(1000, 600).createFromCache("chatInput").setOrigin(0.5);
-    this.chat = this.add.text(500, 500, "chat", {
-      backgroundColor: "#213131CDD",
-      color: "#26924F"
-    }).setOrigin(0, 0);
-    // // Listen for enter key
-    // this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    // this.enterKey.on("down", event => {
-    //   let chatbox = this.textInput.getChildByName("chat");
+    const scene = this;
 
-    // });
+    // Create Chat
+    this.textInput = this.add.dom(5, 660).createFromCache("chatInput").setOrigin(0);
+    this.chat = this.add.text(5, 660, "", {
+      fontSize: 12,
+      backgroundColor: "#242424CD",
+      color: "#FFFFFF",
+      padding: 10,
+      fixedWidth: 450,
+      wordWrap: {width: 450}
+    }).setOrigin(0,1);
+    // Listen for enter key
+    this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.enterKey.on("down", event => {
+      let chatbox = this.textInput.getChildByName("chatInput");
+      if (chatbox.value != "") {
+        scene.socket.emit("sendChat", { roomId: scene.roomId, message: chatbox.value });
+        chatbox.value = "";
+      }
+    });
+
+    this.socket.on("receiveChat", function(chat){
+      const { timestamp, message, id } = chat;
+      console.log(timestamp, message, id);
+      scene.chatMessages.push(`[${timestamp}] ${id}: ${message}`);
+      if(scene.chatMessages.length > 15) {
+        scene.chatMessages.shift();
+      }
+      scene.chat.setText(scene.chatMessages);
+    })
 
     // Connect to chat socket
 
     // const text = this.add.text(400, 250, 'Hello World!');
     // text.setOrigin(0, 0);
-
-    const scene = this;
     
     this.cursors = this.input.keyboard.createCursorKeys();
 

@@ -103,5 +103,18 @@ module.exports = (io) => {
       }
     });
 
+    socket.on("sendChat", function(data) {
+      // TODO room id stuff
+      const { message, roomId } = data;
+      let chat = {
+        timestamp: (new Date()).toLocaleTimeString(),
+        id: socket.id,
+        message: message
+      };
+      console.log('sending: \"[' + chat.timestamp + "] " + chat.id + ": " + chat.message + '\" to room: ' + roomId);
+      io.to(roomId).emit("receiveChat", chat);
+    })
+
+
   });
 };
