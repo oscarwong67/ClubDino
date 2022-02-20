@@ -12,6 +12,11 @@ const gameRooms = {
     players: {},
     numPlayers: 0,
     roomId: 'tfdl',
+  },
+  machall: {
+    players: {},
+    numPlayers: 0,
+    roomId: 'machall',
   }
 };
 
@@ -32,8 +37,8 @@ module.exports = (io) => {
       // console.log("roomInfo", roomInfo);
       roomInfo.players[socket.id] = {
         rotation: 0,
-        x: 400,
-        y: 300,
+        x: 500,
+        y: 350,
         playerId: socket.id,
         name
       };

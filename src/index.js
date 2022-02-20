@@ -16,8 +16,10 @@ import Phaser from 'phaser';
 import config from "./config/config";
 import TaskScene from './scenes/taskScene';
 import TFDL from './scenes/tfdl';
+import MacHall from './scenes/machall';
 import Start from "./scenes/start";
 import SpaceInvaders from './scenes/space-invaders';
+import Idle from './scenes/idle';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -28,6 +30,9 @@ class Game extends Phaser.Game {
     this.scene.add("TFDL", TFDL)
     this.scene.add("Start", Start)
     this.scene.add("SpaceInvaders", SpaceInvaders)
+    this.scene.add("MacHall", MacHall);
+    this.scene.add("TaskScene", TaskScene);
+    this.scene.add("Idle", Idle);
 
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>

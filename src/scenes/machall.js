@@ -1,9 +1,9 @@
 import Phaser from "phaser";
 
-export default class TFDL extends Phaser.Scene {
+export default class MacHall extends Phaser.Scene {
   constructor() {
-    super("TFDL");
-    this.roomId = "tfdl";
+    super("MacHall");
+    this.roomId = "machall";
     this.chatMessages = [];
     this.state = {};
     this.isTransitioning = false;
@@ -11,21 +11,36 @@ export default class TFDL extends Phaser.Scene {
 
   preload() {
     this.load.image("generic", "../assets/game_map/1_Generic_32x32.png");
-    this.load.image("classroom-and-library", "../assets/game_map/5_Classroom_and_library_32x32.png");
+    this.load.image(
+      "classroom-and-library",
+      "../assets/game_map/5_Classroom_and_library_32x32.png"
+    );
     this.load.image("basement", "../assets/game_map/14_Basement_32x32.png");
-    this.load.image("visible upstaris", "../assets/game_map/17_Visibile_Upstairs_System_32x32.png");
+    this.load.image(
+      "visible upstaris",
+      "../assets/game_map/17_Visibile_Upstairs_System_32x32.png"
+    );
     this.load.image("jail", "../assets/game_map/18_Jail_32x32.png");
     this.load.image("hospital", "../assets/game_map/19_Hospital_32x32.png");
-    this.load.image("japanese", "../assets/game_map/20_Japanese_interiors_32x32.png");
-    this.load.image("museum", "../assets/game_map/22_Museum_32x32.png");
-    this.load.image("walls", "../assets/game_map/Room_Builder_3d_walls_32x32.png");
-    this.load.image("floor", "../assets/game_map/Room_Builder_Floors_32x32.png");
     this.load.image(
-      "zipper",
-      "../assets/game_map/Zipper.png"
+      "japanese",
+      "../assets/game_map/20_Japanese_interiors_32x32.png"
     );
-    
-    this.load.tilemapTiledJSON("tfdl_tilemap", "../assets/game_map/tfdl.json");
+    this.load.image("museum", "../assets/game_map/22_Museum_32x32.png");
+    this.load.image(
+      "walls",
+      "../assets/game_map/Room_Builder_3d_walls_32x32.png"
+    );
+    this.load.image(
+      "floor",
+      "../assets/game_map/Room_Builder_Floors_32x32.png"
+    );
+    this.load.image("zipper", "../assets/game_map/Zipper.png");
+
+    this.load.tilemapTiledJSON(
+      "machall_tilemap",
+      "../assets/game_map/machall.json"
+    );
     this.load.atlas(
       "amelia_idle",
       "assets/spritesheets/amelia_idle.png",
@@ -53,10 +68,8 @@ export default class TFDL extends Phaser.Scene {
       .setOffset(16, 24);
     scene.astronaut.anims.play("amelia-idle-down");
 
-    scene.physics.add.collider(scene.astronaut, this.backFurnitureLayer);
     scene.physics.add.collider(scene.astronaut, this.wallsLayer);
     scene.physics.add.collider(scene.astronaut, this.furnitureLayer);
-    scene.physics.add.collider(scene.astronaut, this.moreFurnitureLayer);
 
     let credits = localStorage.getItem("credits");
     if (credits) {
@@ -66,15 +79,21 @@ export default class TFDL extends Phaser.Scene {
       this.state.credits = 0;
     }
 
-    this.creditsText = this.add.text(800, 825, `Dino Creds: ${this.state.credits}`);
-    this.creditsText.setOrigin(0, 0);
-    const nametag = scene.add.text(playerInfo.x, playerInfo.y-45, playerInfo.name, {
-      fontSize: 15,
-      color: "#FFFFFF",
-      padding: 10,
-      wordWrap: {width: 50},
-      align: "center"
-    }).setOrigin(0.5,0);
+    const creditsText = this.add.text(
+      800,
+      825,
+      `Dino Creds: ${this.state.credits}`
+    );
+    creditsText.setOrigin(0, 0);
+    const nametag = scene.add
+      .text(playerInfo.x, playerInfo.y - 45, playerInfo.name, {
+        fontSize: 15,
+        color: "#FFFFFF",
+        padding: 10,
+        wordWrap: { width: 50 },
+        align: "center",
+      })
+      .setOrigin(0.5, 0);
     scene.astronaut.nametag = nametag;
   }
 
@@ -85,43 +104,8 @@ export default class TFDL extends Phaser.Scene {
       "amelia_idle",
       "idle-down-00"
     );
-    const nametag = scene.add.text(playerInfo.x, playerInfo.y-45, playerInfo.name, {
-      fontSize: 15,
-      color: "#FFFFFF",
-      padding: 10,
-      wordWrap: {width: 50},
-      align: "center"
-    }).setOrigin(0.5,0);
-    otherPlayer.name = playerInfo.name;
     otherPlayer.playerId = playerInfo.playerId;
-    otherPlayer.nametag = nametag;
     scene.otherPlayers.add(otherPlayer);
-  }
-
-  highlightControlPanel(astronaut, controlPanel) {
-    controlPanel.setTint(0xbdef83);
-    controlPanel.setInteractive();
-  }
-
-  checkOverlap(scene, player, controlPanel, SceneTitle) {
-    const boundsPlayer = player.getBounds();
-    const boundsPanel = controlPanel.getBounds();
-    if (
-      !Phaser.Geom.Intersects.RectangleToRectangle(boundsPlayer, boundsPanel)
-    ) {
-      scene.deactivateControlPanel(controlPanel);
-    } else {
-      console.log('overlap');
-      scene.astronaut.x = 500;
-      scene.astronaut.y = 350;
-      scene.scene.launch(SceneTitle, { scene: scene, socket: scene.socket });
-      scene.physics.pause();
-    }
-  }
-
-  deactivateControlPanel(controlPanel) {
-    controlPanel.clearTint();
-    controlPanel.disableInteractive();
   }
 
   prepareCharacterAnimation() {
@@ -223,18 +207,23 @@ export default class TFDL extends Phaser.Scene {
     });
   }
 
-  create(name) {
-    this.isTransitioning = false;
-    
-    console.log(`${name} has arrived in TFDL.`);
-    // this.scene.setVisible(false, 'MacHall');
+  create(name) {    
+    // this.scene.setVisible(false, "TFDL");
     // this.scene.setVisible(true);
+
+    this.isTransitioning = false;
+    console.log(`${name} has arrived in Mac Hall.`);
     this.prepareCharacterAnimation();
+    // const text = this.add.text(400, 250, "Hello World!");
+    // text.setOrigin(0, 0);
 
     const scene = this;
 
     // Create Chat
-    this.textInput = this.add.dom(5, 820).createFromCache("chatInput").setOrigin(0);
+    this.textInput = this.add
+      .dom(5, 820)
+      .createFromCache("chatInput")
+      .setOrigin(0);
     this.chat = this.add
       .text(5, 820, "", {
         fontSize: 12,
@@ -246,87 +235,80 @@ export default class TFDL extends Phaser.Scene {
       })
       .setOrigin(0, 1);
     // Listen for enter key
-    this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-    this.enterKey.on("down", event => {
+    this.enterKey = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ENTER
+    );
+    this.enterKey.on("down", (event) => {
       let chatbox = this.textInput.getChildByName("chatInput");
       if (chatbox.value != "") {
-        scene.socket.emit("sendChat", { roomId: scene.roomId, message: chatbox.value });
+        scene.socket.emit("sendChat", {
+          roomId: scene.roomId,
+          message: chatbox.value,
+        });
         chatbox.value = "";
       }
     });
 
-    this.socket.on("receiveChat", function(chat){
+    this.socket.on("receiveChat", function (chat) {
       const { timestamp, message, id } = chat;
       console.log(timestamp, message, id);
       scene.chatMessages.push(`[${timestamp}] ${id}: ${message}`);
-      if(scene.chatMessages.length > 15) {
+      if (scene.chatMessages.length > 15) {
         scene.chatMessages.shift();
       }
       scene.chat.setText(scene.chatMessages);
-    })
-    
-    this.cursors = this.input.keyboard.createCursorKeys();
+    });
 
+    // Connect to chat socket
+
+    // const text = this.add.text(400, 250, 'Hello World!');
+    // text.setOrigin(0, 0);
+
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     // Tilemap
     // this.add.image(0, 0, 'generic');
 
-    scene.map = scene.make.tilemap({ key: "tfdl_tilemap" }); // tilemap with out JSON
+    scene.map = scene.make.tilemap({ key: "machall_tilemap" }); // tilemap with out JSON
     const tilesets = [];
 
+    tilesets.push(scene.map.addTilesetImage("generic", "generic")); // Putting the image data we loaded into the JSON (tilemap)
     tilesets.push(
-      scene.map.addTilesetImage("generic", "generic")
-    ); // Putting the image data we loaded into the JSON (tilemap)
-    tilesets.push(scene.map.addTilesetImage('classroom and library', 'classroom-and-library'));
-    tilesets.push(scene.map.addTilesetImage('basement', 'basement'));
-    tilesets.push(scene.map.addTilesetImage('visible upstaris', 'visible upstaris'));
-    tilesets.push(scene.map.addTilesetImage('jail', 'jail'));
-    tilesets.push(scene.map.addTilesetImage('hospital', 'hospital'));
-    tilesets.push(scene.map.addTilesetImage('japanese', 'japanese'));
-    tilesets.push(scene.map.addTilesetImage('museum', 'museum'));
+      scene.map.addTilesetImage(
+        "classroom and library",
+        "classroom-and-library"
+      )
+    );
+    tilesets.push(scene.map.addTilesetImage("basement", "basement"));
+    tilesets.push(
+      scene.map.addTilesetImage("visible upstaris", "visible upstaris")
+    );
+    tilesets.push(scene.map.addTilesetImage("jail", "jail"));
+    tilesets.push(scene.map.addTilesetImage("hospital", "hospital"));
+    tilesets.push(scene.map.addTilesetImage("japanese", "japanese"));
+    tilesets.push(scene.map.addTilesetImage("museum", "museum"));
     tilesets.push(scene.map.addTilesetImage("walls", "walls"));
     tilesets.push(scene.map.addTilesetImage("floor", "floor"));
     tilesets.push(scene.map.addTilesetImage("zipper", "zipper"));
 
-    scene.map.createLayer('floor', tilesets, 0, 0); // the key has to be the same name from the tiled .tmx file
-    scene.wallsLayer = scene.map.createLayer("walls (collide)", tilesets, 0, 0);
-    scene.backFurnitureLayer = scene.map.createLayer("back furniture (collide)", tilesets, 0, 0);
-    scene.bottomChairsLayer = scene.map.createLayer(
-      "bottom chairs (no collide)",
+    scene.map.createLayer("floor", tilesets, 0, 0); // the key has to be the same name from the tiled .tmx file
+    scene.wallsLayer = scene.map.createLayer("walls", tilesets, 0, 0);
+    scene.furnitureLayer = scene.map.createLayer(
+      "furniture",
       tilesets,
       0,
       0
     );
-    scene.furnitureLayer = scene.map.createLayer("furniture (collide)", tilesets, 0, 0);
-    scene.moreFurnitureLayer = scene.map.createLayer(
-      " more furniture (collide)",
+    scene.stuffOnTopLayer = scene.map.createLayer(
+      "stuff on top",
       tilesets,
       0,
-      0
+      -10
     );
-    scene.evenMoreFurnitureLayer = scene.map.createLayer(
-      "even more furniture (no collide)",
-      tilesets,
-      0,
-      0,
-    );
-    scene.stuffOnTopLayer = scene.map.createLayer("stuff on top", tilesets, 0, -10);
 
-
+    console.log(scene);
     scene.wallsLayer.setCollisionByProperty({ collides: true });
-    scene.backFurnitureLayer.setCollisionByProperty({ collides: true });
     scene.furnitureLayer.setCollisionByProperty({ collides: true });
-    scene.moreFurnitureLayer.setCollisionByProperty({ collides: true });
-
-
-    // TASKS
-    scene.specialComputer = (scene.map.createFromObjects('special computer')[0]);
-    scene.studyDesk = scene.map.createFromObjects('study desk')[0];
-    scene.pinpongTable = scene.map.createFromObjects('pingpong table')[0];
-    scene.pinpongTable.y = scene.pinpongTable.y + 90;
-    scene.specialComputer.y = scene.specialComputer.y + 40;
-    scene.studyDesk.y = scene.studyDesk.y + 40;
-    console.log('got pingpong table 5: ', scene.pinpongTable);
 
     // CREATE OTHER PLAYERS GROUP
     this.otherPlayers = this.physics.add.group();
@@ -349,6 +331,8 @@ export default class TFDL extends Phaser.Scene {
       scene.state.players = players;
       scene.state.numPlayers = numPlayers;
       scene.state.credits = credits;
+
+      console.log(scene.state);
     });
 
     // PLAYERS
@@ -383,7 +367,7 @@ export default class TFDL extends Phaser.Scene {
 
           let nametag = otherPlayer.nametag;
           nametag.x = playerInfo.x;
-          nametag.y = playerInfo.y-45;
+          nametag.y = playerInfo.y - 45;
         }
       });
     });
@@ -419,7 +403,7 @@ export default class TFDL extends Phaser.Scene {
     });
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    scene.socket.emit("joinRoom", "tfdl", name);
+    scene.socket.emit("joinRoom", "machall", name);
   }
 
   update() {
@@ -450,50 +434,46 @@ export default class TFDL extends Phaser.Scene {
       // Update the animation last and give left/right animations precedence over up/down animations
       if (this.cursors.left.isDown) {
         this.astronaut.anims.play("amelia-run-left", true);
-        scene.astronaut.direction = 'left';
+        scene.astronaut.direction = "left";
       } else if (this.cursors.right.isDown) {
         this.astronaut.anims.play("amelia-run-right", true);
         scene.astronaut.direction = "right";
+        const { x, y } = scene.astronaut.body.position;
+        if (x >= 864 && y >= 123 && y <= 168 && !this.isTransitioning) {
+          this.isTransitioning = true;
+          this.socket.disconnect();
+          scene.scene.stop("MacHall");
+          scene.scene.transition({
+            target: "TFDL",
+            duration: 0,
+            data: scene.astronaut.nametag.text,
+            moveAbove: true,
+          });
+          console.log('Leaving Mac Hall');
+        }
       } else if (this.cursors.up.isDown) {
         this.astronaut.anims.play("amelia-run-up", true);
         scene.astronaut.direction = "up";
       } else if (this.cursors.down.isDown) {
         this.astronaut.anims.play("amelia-run-down", true);
         scene.astronaut.direction = "down";
-
-        const { x, y } = scene.astronaut.body.position;
-        if (y >= 540 && x >= 768 && x <= 820 && !this.isTransitioning) {
-          this.isTransitioning = true;
-          this.socket.disconnect();
-          scene.scene.stop("TFDL");
-          scene.scene.transition({
-            target: "MacHall",
-            duration: 0,
-            data: scene.astronaut.nametag.text,
-            moveAbove: true,
-          });
-          console.log("Leaving TFDL");
-        }
       } else {
         // this.astronaut.anims.stop(null, true);
 
         // If we were moving, pick and idle frame to use
-        if (prevVelocity.x < 0){
+        if (prevVelocity.x < 0) {
           this.astronaut.anims.play("amelia-idle-left", true);
-        }
-        else if (prevVelocity.x > 0){
+        } else if (prevVelocity.x > 0) {
           this.astronaut.anims.play("amelia-idle-right", true);
-        }
-        else if (prevVelocity.y < 0) {          
+        } else if (prevVelocity.y < 0) {
           this.astronaut.anims.play("amelia-idle-up", true);
-        }
-        else if (prevVelocity.y > 0) {          
+        } else if (prevVelocity.y > 0) {
           this.astronaut.anims.play("amelia-idle-down", true);
         }
       }
 
       scene.astronaut.nametag.x = scene.astronaut.x;
-      scene.astronaut.nametag.y = scene.astronaut.y-45;
+      scene.astronaut.nametag.y = scene.astronaut.y - 45;
 
       // emit player movement
       var x = scene.astronaut.x;
@@ -532,50 +512,5 @@ export default class TFDL extends Phaser.Scene {
         rotation: scene.astronaut.rotation,
       };
     }
-
-    // CONTROL PANEL OVERLAP
-    if (scene.astronaut) {
-      this.physics.add.overlap(
-        scene.astronaut,
-        scene.pinpongTable,
-        scene.highlightControlPanel,
-        null,
-        this
-      );
-      this.physics.add.overlap(
-        scene.astronaut,
-        scene.specialComputer,
-        scene.highlightControlPanel,
-        null,
-        this
-      );
-      this.physics.add.overlap(
-        scene.astronaut,
-        scene.studyDesk,
-        scene.highlightControlPanel,
-        null,
-        this
-      );
-      //CONTROL PANEL: NOT OVERLAPPED
-      scene.checkOverlap(
-        scene,
-        scene.astronaut,
-        scene.pinpongTable,
-        "TaskScene"
-      );
-      scene.checkOverlap(
-        scene,
-        scene.astronaut,
-        scene.specialComputer,
-        "SpaceInvaders"
-      );
-      scene.checkOverlap(
-        scene,
-        scene.astronaut,
-        scene.studyDesk,
-        "Idle"
-      );
-    }
-
   }
 }

@@ -44,7 +44,7 @@ export default class Start extends Phaser.Scene {
     this.enterKey.on("down", event => {
       let chatbox = this.textInput.getChildByName("usernameInput");
       if (chatbox.value != "") {
-        this.scene.transition({target: 'TFDL', duration: 0, data: chatbox.value})
+        this.scene.transition({target: 'MacHall', duration: 0, data: chatbox.value})
       }
     });
     scene.add.sprite(this.cameras.main.width/2,500,"amelia_idle","idle-down-00").setOrigin(0.5)
