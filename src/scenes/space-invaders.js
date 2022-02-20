@@ -101,7 +101,7 @@ export default class SpaceInvaders extends Phaser.Scene {
       this.scene.scene.setVisible(false);
       
       this.scene.prevscene.scene.physics.resume();
-      this.scene.prevscene.scene.creditsText.text = `Dino Creds: ${credits + 10}`;
+      // this.scene.prevscene.scene.creditsText.text = `Dino Creds: ${credits + 10}`;
     })
 
     this.physics.world.setBounds(4, 22, 1000, 600);
