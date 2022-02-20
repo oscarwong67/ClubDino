@@ -50,8 +50,13 @@ export default class TFDL extends Phaser.Scene {
       .sprite(playerInfo.x, playerInfo.y, "amelia_idle", "idle-down-00")
       .setSize(32, 48)
       .setOrigin(0.5, 0.5)
-      .setOffset(16, 16);
+      .setOffset(16, 24);
     scene.astronaut.anims.play("amelia-idle-down");
+
+    scene.physics.add.collider(scene.astronaut, this.backFurnitureLayer);
+    scene.physics.add.collider(scene.astronaut, this.wallsLayer);
+    scene.physics.add.collider(scene.astronaut, this.furnitureLayer);
+    scene.physics.add.collider(scene.astronaut, this.moreFurnitureLayer);
   }
 
   addOtherPlayers(scene, playerInfo) {
@@ -172,15 +177,17 @@ export default class TFDL extends Phaser.Scene {
     const scene = this;
 
     // Create Chat
-    this.textInput = this.add.dom(5, 660).createFromCache("chatInput").setOrigin(0);
-    this.chat = this.add.text(5, 660, "", {
-      fontSize: 12,
-      backgroundColor: "#242424CD",
-      color: "#FFFFFF",
-      padding: 10,
-      fixedWidth: 450,
-      wordWrap: {width: 450}
-    }).setOrigin(0,1);
+    this.textInput = this.add.dom(5, 820).createFromCache("chatInput").setOrigin(0);
+    this.chat = this.add
+      .text(5, 820, "", {
+        fontSize: 12,
+        backgroundColor: "#242424CD",
+        color: "#FFFFFF",
+        padding: 10,
+        fixedWidth: 450,
+        wordWrap: { width: 450 },
+      })
+      .setOrigin(0, 1);
     // Listen for enter key
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.enterKey.on("down", event => {
@@ -250,12 +257,13 @@ export default class TFDL extends Phaser.Scene {
       0,
       0,
     );
-    scene.stuffOnTopLayer = scene.map.createLayer("stuff on top", tilesets, 0, 0);
+    scene.stuffOnTopLayer = scene.map.createLayer("stuff on top", tilesets, 0, -10);
 
 
     scene.wallsLayer.setCollisionByProperty({ collides: true });
     scene.backFurnitureLayer.setCollisionByProperty({ collides: true });
-    scene.furnitureLayer.setCollisionByProperty({ collides: true });
+    // scene.furnitureLayer.setCollisionByProperty({ collides: true });
+    scene.furnitureLayer.setCollisionByExclusion();
     scene.moreFurnitureLayer.setCollisionByProperty({ collides: true });
 
 

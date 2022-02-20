@@ -22,7 +22,7 @@ class Game extends Phaser.Game {
     super(config);
     // Add all the scenes
     // << ADD ALL SCENES HERE >>
-    this.scene.add("TFDL", TFDL)
+    this.scene.add("TFDL", TFDL);
 
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
