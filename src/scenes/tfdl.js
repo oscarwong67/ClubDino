@@ -87,6 +87,30 @@ export default class TFDL extends Phaser.Scene {
     scene.otherPlayers.add(otherPlayer);
   }
 
+  highlightControlPanel(astronaut, controlPanel) {
+    controlPanel.setTint(0xbdef83);
+    controlPanel.setInteractive();
+  }
+
+  checkOverlap(scene, player, controlPanel) {
+    const boundsPlayer = player.getBounds();
+    const boundsPanel = controlPanel.getBounds();
+    if (
+      !Phaser.Geom.Intersects.RectangleToRectangle(boundsPlayer, boundsPanel)
+    ) {
+      scene.deactivateControlPanel(controlPanel);
+    } else {
+      console.log('overlap');
+      scene.scene.start("TaskScene", { ...scene.scene, socket: scene.socket });
+      scene.physics.pause();
+    }
+  }
+
+  deactivateControlPanel(controlPanel) {
+    controlPanel.clearTint();
+    controlPanel.disableInteractive();
+  }
+
   prepareCharacterAnimation() {
     const scene = this;
     scene.anims.create({
@@ -188,8 +212,6 @@ export default class TFDL extends Phaser.Scene {
 
   create(name) {
     this.prepareCharacterAnimation();
-    // const text = this.add.text(400, 250, "Hello World!");
-    // text.setOrigin(0, 0);
 
     const scene = this;
 
@@ -224,17 +246,9 @@ export default class TFDL extends Phaser.Scene {
       }
       scene.chat.setText(scene.chatMessages);
     })
-
-    // Connect to chat socket
-
-    // const text = this.add.text(400, 250, 'Hello World!');
-    // text.setOrigin(0, 0);
     
     this.cursors = this.input.keyboard.createCursorKeys();
 
-
-    // Tilemap
-    // this.add.image(0, 0, 'generic');
 
     scene.map = scene.make.tilemap({key: "map"}); // tilemap with out JSON
     const tilesets = [];
@@ -284,6 +298,14 @@ export default class TFDL extends Phaser.Scene {
     scene.moreFurnitureLayer.setCollisionByProperty({ collides: true });
 
 
+    // TASKS
+    scene.specialComputer = scene.map.createFromObjects('special computer')[0];
+    scene.studyDesk = scene.map.createFromObjects('study desk')[0];
+    scene.pinpongTable = scene.map.createFromObjects('pingpong table')[0];
+    scene.pinpongTable.y = scene.pinpongTable.y + 90;
+    scene.specialComputer.y = scene.specialComputer.y + 40;
+    scene.studyDesk.y = scene.studyDesk.y + 40;
+    console.log('got pingpong table 12: ', scene.pinpongTable);
 
     // CREATE OTHER PLAYERS GROUP
     this.otherPlayers = this.physics.add.group();
@@ -474,5 +496,47 @@ export default class TFDL extends Phaser.Scene {
         rotation: scene.astronaut.rotation,
       };
     }
+
+    // CONTROL PANEL OVERLAP
+    if (scene.astronaut) {
+      this.physics.add.overlap(
+        scene.astronaut,
+        scene.pinpongTable,
+        scene.highlightControlPanel,
+        null,
+        this
+      );
+      this.physics.add.overlap(
+        scene.astronaut,
+        scene.specialComputer,
+        scene.highlightControlPanel,
+        null,
+        this
+      );
+      this.physics.add.overlap(
+        scene.astronaut,
+        scene.studyDesk,
+        scene.highlightControlPanel,
+        null,
+        this
+      );
+      //CONTROL PANEL: NOT OVERLAPPED
+      scene.checkOverlap(
+        scene,
+        scene.astronaut,
+        scene.pinpongTable
+      );
+      scene.checkOverlap(
+        scene,
+        scene.astronaut,
+        scene.specialComputer
+      );
+      scene.checkOverlap(
+        scene,
+        scene.astronaut,
+        scene.studyDesk
+      );
+    }
+
   }
 }

@@ -14,6 +14,7 @@ But this hasn't happened yet!
 
 import Phaser from 'phaser';
 import config from "./config/config";
+import TaskScene from './scenes/taskScene';
 import TFDL from './scenes/tfdl';
 import Start from "./scenes/start";
 import SpaceInvaders from './scenes/space-invaders';
