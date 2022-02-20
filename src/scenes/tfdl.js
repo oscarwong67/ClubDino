@@ -57,6 +57,14 @@ export default class TFDL extends Phaser.Scene {
     scene.physics.add.collider(scene.astronaut, this.wallsLayer);
     scene.physics.add.collider(scene.astronaut, this.furnitureLayer);
     scene.physics.add.collider(scene.astronaut, this.moreFurnitureLayer);
+    const nametag = scene.add.text(playerInfo.x, playerInfo.y-45, playerInfo.name, {
+      fontSize: 15,
+      color: "#FFFFFF",
+      padding: 10,
+      wordWrap: {width: 50},
+      align: "center"
+    }).setOrigin(0.5,0);
+    scene.astronaut.nametag = nametag;
   }
 
   addOtherPlayers(scene, playerInfo) {
@@ -66,7 +74,16 @@ export default class TFDL extends Phaser.Scene {
       "amelia_idle",
       "idle-down-00"
     );
+    const nametag = scene.add.text(playerInfo.x, playerInfo.y-45, playerInfo.name, {
+      fontSize: 15,
+      color: "#FFFFFF",
+      padding: 10,
+      wordWrap: {width: 50},
+      align: "center"
+    }).setOrigin(0.5,0);
+    otherPlayer.name = playerInfo.name;
     otherPlayer.playerId = playerInfo.playerId;
+    otherPlayer.nametag = nametag;
     scene.otherPlayers.add(otherPlayer);
   }
 
@@ -169,7 +186,7 @@ export default class TFDL extends Phaser.Scene {
     });
   }
 
-  create() {
+  create(name) {
     this.prepareCharacterAnimation();
     // const text = this.add.text(400, 250, "Hello World!");
     // text.setOrigin(0, 0);
@@ -321,6 +338,10 @@ export default class TFDL extends Phaser.Scene {
           } else if (oldY > playerInfo.y) {
             otherPlayer.anims.play("amelia-run-up", true);
           }
+
+          let nametag = otherPlayer.nametag;
+          nametag.x = playerInfo.x;
+          nametag.y = playerInfo.y-45;
         }
       });
     });
@@ -350,12 +371,13 @@ export default class TFDL extends Phaser.Scene {
       scene.otherPlayers.getChildren().forEach(function (otherPlayer) {
         if (playerId === otherPlayer.playerId) {
           otherPlayer.destroy();
+          otherPlayer.nametag.destroy();
         }
       });
     });
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    scene.socket.emit("joinRoom", "tfdl");
+    scene.socket.emit("joinRoom", "tfdl", name);
   }
 
   update() {
@@ -411,6 +433,9 @@ export default class TFDL extends Phaser.Scene {
           this.astronaut.anims.play("amelia-idle-down", true);
         }
       }
+
+      scene.astronaut.nametag.x = scene.astronaut.x;
+      scene.astronaut.nametag.y = scene.astronaut.y-45;
 
       // emit player movement
       var x = scene.astronaut.x;
