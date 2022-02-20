@@ -20,6 +20,15 @@ import MacHall from './scenes/machall';
 import Start from "./scenes/start";
 import SpaceInvaders from './scenes/space-invaders';
 import Idle from './scenes/idle';
+import PPMain from './scenes/ppmain';
+
+import TitleScreen from './scenes/titlescreen'
+import Ppong from "./scenes/ppong"
+import GameBackground from './scenes/background'
+import GameOver from './scenes/gameover'
+
+import * as SceneKeys from './const/scenekeys'
+
 
 class Game extends Phaser.Game {
   constructor() {
@@ -34,29 +43,19 @@ class Game extends Phaser.Game {
     this.scene.add("TaskScene", TaskScene);
     this.scene.add("Idle", Idle);
 
+    // Ping pong controller scene
+    this.scene.add("PPMain",PPMain);
+    //Ping Pong scenes
+    this.scene.add(SceneKeys.TitleScreen,TitleScreen);
+    this.scene.add(SceneKeys.Ppong, Ppong);
+    this.scene.add(SceneKeys.GameBackground, GameBackground);
+    this.scene.add(SceneKeys.GameOver, GameOver);
+
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
     this.scene.start("Start");
   }
 }
-// // const config = {
-// //     type: Phaser.AUTO,
-// //     width: 400,
-// //     height: 250, 
-// //     physics: {
-// //         default: 'arcade',
-// //         arcade: {
-// //           gravity: { y: 0 }
-// //         }
-// //     },
-// //     scene : [Preloader, TFDL],
-// //     scale: {
-// //       zoom: 2
-// //     }
-// // }
-
-// export default new Phaser.Game(config)
-
 // Create new instance of game
 window.onload = function () {
   window.game = new Game();

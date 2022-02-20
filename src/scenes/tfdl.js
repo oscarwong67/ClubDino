@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import PPMain from './ppmain';
 
 export default class TFDL extends Phaser.Scene {
   constructor() {
@@ -111,7 +112,6 @@ export default class TFDL extends Phaser.Scene {
     ) {
       scene.deactivateControlPanel(controlPanel);
     } else {
-      console.log('overlap');
       scene.scene.launch(SceneTitle, { ...scene.scene, socket: scene.socket });
       scene.astronaut.x = 500;
       scene.astronaut.y = 350;
@@ -563,7 +563,7 @@ export default class TFDL extends Phaser.Scene {
         scene,
         scene.astronaut,
         scene.pinpongTable,
-        "TaskScene"
+        "PPMain"
       );
       scene.checkOverlap(
         scene,
