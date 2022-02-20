@@ -14,6 +14,7 @@ But this hasn't happened yet!
 
 import Phaser from 'phaser';
 import config from "./config/config";
+import TaskScene from './scenes/taskScene';
 import TFDL from './scenes/tfdl';
 
 class Game extends Phaser.Game {
@@ -23,6 +24,7 @@ class Game extends Phaser.Game {
     // Add all the scenes
     // << ADD ALL SCENES HERE >>
     this.scene.add("TFDL", TFDL);
+    this.scene.add("TaskScene", TaskScene);
 
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
