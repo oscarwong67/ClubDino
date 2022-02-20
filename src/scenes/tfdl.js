@@ -11,6 +11,7 @@ export default class TFDL extends Phaser.Scene {
       frameWidth: 29,
       frameHeight: 37,
     });
+    this.load.html("chatInput", "chat.html");
   }
 
   init() {
@@ -38,8 +39,23 @@ export default class TFDL extends Phaser.Scene {
   }
 
   create() {
-    const text = this.add.text(400, 250, 'Hello World!');
-    text.setOrigin(0, 0);
+    // Create Chat
+    this.textInput = this.add.dom(1000, 600).createFromCache("chatInput").setOrigin(0.5);
+    this.chat = this.add.text(500, 500, "chat", {
+      backgroundColor: "#213131CDD",
+      color: "#26924F"
+    }).setOrigin(0, 0);
+    // // Listen for enter key
+    // this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    // this.enterKey.on("down", event => {
+    //   let chatbox = this.textInput.getChildByName("chat");
+
+    // });
+
+    // Connect to chat socket
+
+    // const text = this.add.text(400, 250, 'Hello World!');
+    // text.setOrigin(0, 0);
 
     const scene = this;
     
