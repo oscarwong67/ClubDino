@@ -63,22 +63,27 @@ export default class TFDL extends Phaser.Scene {
     // this.add.image(0, 0, 'generic');
 
     scene.map = scene.make.tilemap({key: "map"}); // tilemap with out JSON
-    scene.tileset = scene.map.addTilesetImage('generic', 'generic'); // Putting the image data we loaded into the JSON (tilemap)
-    scene.tileset = scene.map.addTilesetImage('classroom and library', 'classroom-and-library');
-    scene.tileset = scene.map.addTilesetImage('basement', 'basement');
-    scene.tileset = scene.map.addTilesetImage('visible upstaris', 'visible upstaris');
-    scene.tileset = scene.map.addTilesetImage('jail', 'jail');
-    scene.tileset = scene.map.addTilesetImage('hospital', 'hospital');
-    scene.tileset = scene.map.addTilesetImage('japanese', 'japanese');
-    scene.tileset = scene.map.addTilesetImage('museum', 'museum');
-    scene.tileset = scene.map.addTilesetImage('walls', 'walls');
-    scene.tileset = scene.map.addTilesetImage('floor', 'floor');
+    const tilesets = [];
 
-    // scene.map.createLayer('floor', scene.tileset, 100, 10); // the key has to be the same name from the tiled .tmx file
-    scene.map.createLayer('floor', scene.tileset, 0, 0);
-    scene.map.createLayer('walls (collide)', scene.tileset, 0, 0);
-    scene.map.createLayer('back furniture (collide)', scene.tileset, 0, 0);
-    scene.map.createLayer('back furniture (collide)', scene.tileset, 0, 0);
+    tilesets.push(
+      scene.map.addTilesetImage("generic", "generic")
+    ); // Putting the image data we loaded into the JSON (tilemap)
+    tilesets.push(scene.map.addTilesetImage('classroom and library', 'classroom-and-library'));
+    tilesets.push(scene.map.addTilesetImage('basement', 'basement'));
+    tilesets.push(scene.map.addTilesetImage('visible upstaris', 'visible upstaris'));
+    tilesets.push(scene.map.addTilesetImage('jail', 'jail'));
+    tilesets.push(scene.map.addTilesetImage('hospital', 'hospital'));
+    tilesets.push(scene.map.addTilesetImage('japanese', 'japanese'));
+    tilesets.push(scene.map.addTilesetImage('museum', 'museum'));
+    tilesets.push(scene.map.addTilesetImage("walls", "walls"));
+    tilesets.push(scene.map.addTilesetImage("floor", "floor"));
+
+    scene.map.createLayer('floor', tilesets, 0, 0); // the key has to be the same name from the tiled .tmx file
+    scene.wallsLayer = scene.map.createLayer("walls (collide)", tilesets, 0, 0);
+    scene.furnitureLayer = scene.map.createLayer("back furniture (collide)", tilesets, 0, 0);
+
+    scene.wallsLayer.setCollisionByProperty({ collides: true });
+    scene.furnitureLayer.setCollisionByProperty({ collides: true });
 
 
 
