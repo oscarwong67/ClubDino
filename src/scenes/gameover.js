@@ -5,6 +5,7 @@ import { TitleScreen } from '../const/scenekeys'
 export default class GameOver extends Phaser.Scene {
   
   create(data){
+    this.scene.bringToTop();
     let endTitle = 'Game Over'
     if (data.leftScore > data.rightScore){
       endTitle = 'You Win!!!'

@@ -10,7 +10,7 @@ export default class TitleScreen extends Phaser.Scene{
   }
 
   create(){
-  
+    this.scene.bringToTop();
     const title = this.add.text(528,270, 'Ping Pong', {
       fontSize: 69,
       fontFamily: '"Press Start 2P"'

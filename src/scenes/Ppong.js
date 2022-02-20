@@ -29,7 +29,7 @@ class Ppong extends Phaser.Scene {
   }
 
   create(){
-    
+    this.scene.bringToTop();
     this.scene.run(GameBackground);
     this.scene.sendToBack(GameBackground);
     
@@ -91,7 +91,7 @@ class Ppong extends Phaser.Scene {
         this.paddleLeft.y-=10;
         body.updateFromGameObject();
       } 
-      else if (this.cursors.down.isDown) {
+      else if (this.cursors.down.isDown && this.paddleLeft.y < 558) {
         this.paddleLeft.y+=10;
         body.updateFromGameObject();
       }
@@ -115,7 +115,7 @@ class Ppong extends Phaser.Scene {
       // ball above below paddle
       else if (diff > 0){
         this.paddleRightVelocity.y = aiSpeed;
-        if (this.paddleRightVelocity.y > 10) {
+        if (this.paddleRightVelocity.y > 10 && this.paddleRight.y < 558) {
           this.paddleRightVelocity.y = 10;
         }
       }
