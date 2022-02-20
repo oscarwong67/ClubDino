@@ -30,8 +30,10 @@
   },
   "homepage": "https://github.com/JeremyOlea/ClubDino#readme",
   "dependencies": {
+    "@babel/core": "^7.17.5",
     "@babel/polyfill": "^7.12.1",
     "axios": "^0.21.0",
+    "babel": "^6.23.0",
     "babel-loader": "^8.2.3",
     "compression": "^1.7.4",
     "express": "^4.17.3",
@@ -40,7 +42,8 @@
     "nodemon": "^2.0.15",
     "phaser": "^3.24.1",
     "socket.io": "^4.4.1",
-    "socket.io-client": "^3.0.3"
+    "socket.io-client": "^3.0.3",
+    "webpack": "^5.69.1"
   },
   "devDependencies": {
     "webpack-cli": "^4.9.2"

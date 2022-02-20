@@ -11,6 +11,19 @@ export default class TFDL extends Phaser.Scene {
       frameWidth: 29,
       frameHeight: 37,
     });
+
+    this.load.image("generic", "../assets/game_map/1_Generic_32x32.png");
+    this.load.image("classroom-and-library", "../assets/game_map/5_Classroom_and_library_32x32.png");
+    this.load.image("basement", "../assets/game_map/14_Basement_32x32.png");
+    this.load.image("visible upstaris", "../assets/game_map/17_Visibile_Upstairs_System_32x32.png");
+    this.load.image("jail", "../assets/game_map/18_Jail_32x32.png");
+    this.load.image("hospital", "../assets/game_map/19_Hospital_32x32.png");
+    this.load.image("japanese", "../assets/game_map/20_Japanese_interiors_32x32.png");
+    this.load.image("museum", "../assets/game_map/22_Museum_32x32.png");
+    this.load.image("walls", "../assets/game_map/Room_Builder_3d_walls_32x32.png");
+    this.load.image("floor", "../assets/game_map/Room_Builder_Floors_32x32.png");
+    
+    this.load.tilemapTiledJSON('map', "../assets/game_map/tfdl.json")
   }
 
   init() {
@@ -38,12 +51,36 @@ export default class TFDL extends Phaser.Scene {
   }
 
   create() {
-    const text = this.add.text(400, 250, 'Hello World!');
-    text.setOrigin(0, 0);
+    // const text = this.add.text(400, 250, 'Hello World!');
+    // text.setOrigin(0, 0);
 
     const scene = this;
     
     this.cursors = this.input.keyboard.createCursorKeys();
+
+
+    // Tilemap
+    // this.add.image(0, 0, 'generic');
+
+    scene.map = scene.make.tilemap({key: "map"}); // tilemap with out JSON
+    scene.tileset = scene.map.addTilesetImage('generic', 'generic'); // Putting the image data we loaded into the JSON (tilemap)
+    scene.tileset = scene.map.addTilesetImage('classroom and library', 'classroom-and-library');
+    scene.tileset = scene.map.addTilesetImage('basement', 'basement');
+    scene.tileset = scene.map.addTilesetImage('visible upstaris', 'visible upstaris');
+    scene.tileset = scene.map.addTilesetImage('jail', 'jail');
+    scene.tileset = scene.map.addTilesetImage('hospital', 'hospital');
+    scene.tileset = scene.map.addTilesetImage('japanese', 'japanese');
+    scene.tileset = scene.map.addTilesetImage('museum', 'museum');
+    scene.tileset = scene.map.addTilesetImage('walls', 'walls');
+    scene.tileset = scene.map.addTilesetImage('floor', 'floor');
+
+    // scene.map.createLayer('floor', scene.tileset, 100, 10); // the key has to be the same name from the tiled .tmx file
+    scene.map.createLayer('floor', scene.tileset, 0, 0);
+    scene.map.createLayer('walls (collide)', scene.tileset, 0, 0);
+    scene.map.createLayer('back furniture (collide)', scene.tileset, 0, 0);
+    scene.map.createLayer('back furniture (collide)', scene.tileset, 0, 0);
+
+
 
     // CREATE OTHER PLAYERS GROUP
     this.otherPlayers = this.physics.add.group();

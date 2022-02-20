@@ -12,9 +12,9 @@ npm install @types/phaser
 But this hasn't happened yet!
 */
 
-import "phaser";
+import Phaser from 'phaser';
 import config from "./config/config";
-import MainScene from "./scenes/mainscene";
+// import Preloader from "./scenes/preload";
 import TFDL from './scenes/tfdl';
 
 class Game extends Phaser.Game {
@@ -23,7 +23,7 @@ class Game extends Phaser.Game {
     super(config);
     // Add all the scenes
     // << ADD ALL SCENES HERE >>
-    this.scene.add("MainScene", MainScene)
+    
     this.scene.add("TFDL", TFDL)
 
     // Start the game with the mainscene
@@ -31,6 +31,23 @@ class Game extends Phaser.Game {
     this.scene.start("TFDL");
   }
 }
+// // const config = {
+// //     type: Phaser.AUTO,
+// //     width: 400,
+// //     height: 250, 
+// //     physics: {
+// //         default: 'arcade',
+// //         arcade: {
+// //           gravity: { y: 0 }
+// //         }
+// //     },
+// //     scene : [Preloader, TFDL],
+// //     scale: {
+// //       zoom: 2
+// //     }
+// // }
+
+// export default new Phaser.Game(config)
 
 // Create new instance of game
 window.onload = function () {
