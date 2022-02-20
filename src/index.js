@@ -18,6 +18,7 @@ import TaskScene from './scenes/taskScene';
 import TFDL from './scenes/tfdl';
 import MacHall from './scenes/machall';
 import Start from "./scenes/start";
+import SpaceInvaders from './scenes/space-invaders';
 import Idle from './scenes/idle';
 import PPMain from './scenes/ppmain';
 
@@ -30,6 +31,7 @@ class Game extends Phaser.Game {
     // << ADD ALL SCENES HERE >>
     this.scene.add("TFDL", TFDL)
     this.scene.add("Start", Start)
+    this.scene.add("SpaceInvaders", SpaceInvaders)
     this.scene.add("MacHall", MacHall);
     this.scene.add("TaskScene", TaskScene);
     this.scene.add("Idle", Idle);
