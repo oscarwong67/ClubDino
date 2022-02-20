@@ -104,7 +104,18 @@ export default class MacHall extends Phaser.Scene {
       "amelia_idle",
       "idle-down-00"
     );
+    const nametag = scene.add
+      .text(playerInfo.x, playerInfo.y - 45, playerInfo.name, {
+        fontSize: 15,
+        color: "#FFFFFF",
+        padding: 10,
+        wordWrap: { width: 50 },
+        align: "center",
+      })
+      .setOrigin(0.5, 0);
+    otherPlayer.name = playerInfo.name;
     otherPlayer.playerId = playerInfo.playerId;
+    otherPlayer.nametag = nametag;
     scene.otherPlayers.add(otherPlayer);
   }
 
@@ -303,7 +314,7 @@ export default class MacHall extends Phaser.Scene {
       "stuff on top",
       tilesets,
       0,
-      -10
+      0
     );
 
     console.log(scene);
