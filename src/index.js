@@ -16,6 +16,7 @@ import Phaser from 'phaser';
 import config from "./config/config";
 import TFDL from './scenes/tfdl';
 import Start from "./scenes/start";
+import SpaceInvaders from './scenes/space-invaders';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -25,10 +26,11 @@ class Game extends Phaser.Game {
     // << ADD ALL SCENES HERE >>
     this.scene.add("TFDL", TFDL)
     this.scene.add("Start", Start)
+    this.scene.add("SpaceInvaders", SpaceInvaders)
 
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
-    this.scene.start("Start");
+    this.scene.start("SpaceInvaders");
   }
 }
 // // const config = {
