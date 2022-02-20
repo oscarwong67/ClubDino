@@ -6,6 +6,7 @@ export default class MacHall extends Phaser.Scene {
     this.roomId = "machall";
     this.chatMessages = [];
     this.state = {};
+    this.isTransitioning = false;
   }
 
   preload() {
@@ -36,7 +37,10 @@ export default class MacHall extends Phaser.Scene {
     );
     this.load.image("zipper", "../assets/game_map/Zipper.png");
 
-    this.load.tilemapTiledJSON("map", "../assets/game_map/machall.json");
+    this.load.tilemapTiledJSON(
+      "machall_tilemap",
+      "../assets/game_map/machall.json"
+    );
     this.load.atlas(
       "amelia_idle",
       "assets/spritesheets/amelia_idle.png",
@@ -81,6 +85,16 @@ export default class MacHall extends Phaser.Scene {
       `Dino Creds: ${this.state.credits}`
     );
     creditsText.setOrigin(0, 0);
+    const nametag = scene.add
+      .text(playerInfo.x, playerInfo.y - 45, playerInfo.name, {
+        fontSize: 15,
+        color: "#FFFFFF",
+        padding: 10,
+        wordWrap: { width: 50 },
+        align: "center",
+      })
+      .setOrigin(0.5, 0);
+    scene.astronaut.nametag = nametag;
   }
 
   addOtherPlayers(scene, playerInfo) {
@@ -193,7 +207,12 @@ export default class MacHall extends Phaser.Scene {
     });
   }
 
-  create() {
+  create(name) {    
+    // this.scene.setVisible(false, "TFDL");
+    // this.scene.setVisible(true);
+
+    this.isTransitioning = false;
+    console.log(`${name} has arrived in Mac Hall.`);
     this.prepareCharacterAnimation();
     // const text = this.add.text(400, 250, "Hello World!");
     // text.setOrigin(0, 0);
@@ -250,7 +269,7 @@ export default class MacHall extends Phaser.Scene {
     // Tilemap
     // this.add.image(0, 0, 'generic');
 
-    scene.map = scene.make.tilemap({ key: "map" }); // tilemap with out JSON
+    scene.map = scene.make.tilemap({ key: "machall_tilemap" }); // tilemap with out JSON
     const tilesets = [];
 
     tilesets.push(scene.map.addTilesetImage("generic", "generic")); // Putting the image data we loaded into the JSON (tilemap)
@@ -284,9 +303,10 @@ export default class MacHall extends Phaser.Scene {
       "stuff on top",
       tilesets,
       0,
-      0
+      -10
     );
 
+    console.log(scene);
     scene.wallsLayer.setCollisionByProperty({ collides: true });
     scene.furnitureLayer.setCollisionByProperty({ collides: true });
 
@@ -344,6 +364,10 @@ export default class MacHall extends Phaser.Scene {
           } else if (oldY > playerInfo.y) {
             otherPlayer.anims.play("amelia-run-up", true);
           }
+
+          let nametag = otherPlayer.nametag;
+          nametag.x = playerInfo.x;
+          nametag.y = playerInfo.y - 45;
         }
       });
     });
@@ -373,18 +397,22 @@ export default class MacHall extends Phaser.Scene {
       scene.otherPlayers.getChildren().forEach(function (otherPlayer) {
         if (playerId === otherPlayer.playerId) {
           otherPlayer.destroy();
+          otherPlayer.nametag.destroy();
         }
       });
     });
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    scene.socket.emit("joinRoom", "machall");
+    scene.socket.emit("joinRoom", "machall", name);
   }
 
   update() {
     const scene = this;
     if (scene.astronaut) {
-      const prevVelocity = this.astronaut.body.velocity.clone();
+      if (!scene.astronaut.body) {
+        return;
+      }
+      const prevVelocity = scene.astronaut.body.velocity.clone();
       const speed = 225;
       // Stop any previous movement from the last frame
       scene.astronaut.body.setVelocity(0);
@@ -410,9 +438,18 @@ export default class MacHall extends Phaser.Scene {
       } else if (this.cursors.right.isDown) {
         this.astronaut.anims.play("amelia-run-right", true);
         scene.astronaut.direction = "right";
-        const { x, y }  = scene.astronaut.body.position;
-        if (x >= 864 && y >= 123 && y <= 168) {
-          this.scene.transition({target: 'tfdl', duration: 0});
+        const { x, y } = scene.astronaut.body.position;
+        if (x >= 864 && y >= 123 && y <= 168 && !this.isTransitioning) {
+          this.isTransitioning = true;
+          this.socket.disconnect();
+          scene.scene.stop("MacHall");
+          scene.scene.transition({
+            target: "TFDL",
+            duration: 0,
+            data: scene.astronaut.nametag.text,
+            moveAbove: true,
+          });
+          console.log('Leaving Mac Hall');
         }
       } else if (this.cursors.up.isDown) {
         this.astronaut.anims.play("amelia-run-up", true);
@@ -434,6 +471,9 @@ export default class MacHall extends Phaser.Scene {
           this.astronaut.anims.play("amelia-idle-down", true);
         }
       }
+
+      scene.astronaut.nametag.x = scene.astronaut.x;
+      scene.astronaut.nametag.y = scene.astronaut.y - 45;
 
       // emit player movement
       var x = scene.astronaut.x;

@@ -6,6 +6,7 @@ export default class TFDL extends Phaser.Scene {
     this.roomId = "tfdl";
     this.chatMessages = [];
     this.state = {};
+    this.isTransitioning = false;
   }
 
   preload() {
@@ -24,7 +25,7 @@ export default class TFDL extends Phaser.Scene {
       "../assets/game_map/Zipper.png"
     );
     
-    this.load.tilemapTiledJSON('map', "../assets/game_map/tfdl.json")
+    this.load.tilemapTiledJSON("tfdl_tilemap", "../assets/game_map/tfdl.json");
     this.load.atlas(
       "amelia_idle",
       "assets/spritesheets/amelia_idle.png",
@@ -197,6 +198,11 @@ export default class TFDL extends Phaser.Scene {
   }
 
   create(name) {
+    this.isTransitioning = false;
+    
+    console.log(`${name} has arrived in TFDL.`);
+    // this.scene.setVisible(false, 'MacHall');
+    // this.scene.setVisible(true);
     this.prepareCharacterAnimation();
     // const text = this.add.text(400, 250, "Hello World!");
     // text.setOrigin(0, 0);
@@ -246,7 +252,7 @@ export default class TFDL extends Phaser.Scene {
     // Tilemap
     // this.add.image(0, 0, 'generic');
 
-    scene.map = scene.make.tilemap({key: "map"}); // tilemap with out JSON
+    scene.map = scene.make.tilemap({ key: "tfdl_tilemap" }); // tilemap with out JSON
     const tilesets = [];
 
     tilesets.push(
@@ -316,8 +322,6 @@ export default class TFDL extends Phaser.Scene {
       scene.state.players = players;
       scene.state.numPlayers = numPlayers;
       scene.state.credits = credits;
-
-      console.log(scene.state);
     });
 
     // PLAYERS
@@ -394,8 +398,10 @@ export default class TFDL extends Phaser.Scene {
   update() {
     const scene = this;
     if (scene.astronaut) {
-      
-      const prevVelocity = this.astronaut.body.velocity.clone();
+      if (!scene.astronaut.body) {
+        return;
+      }
+      const prevVelocity = scene.astronaut.body.velocity.clone();
       const speed = 225;
       // Stop any previous movement from the last frame
       scene.astronaut.body.setVelocity(0);
@@ -427,6 +433,20 @@ export default class TFDL extends Phaser.Scene {
       } else if (this.cursors.down.isDown) {
         this.astronaut.anims.play("amelia-run-down", true);
         scene.astronaut.direction = "down";
+
+        const { x, y } = scene.astronaut.body.position;
+        if (y >= 540 && x >= 768 && x <= 820 && !this.isTransitioning) {
+          this.isTransitioning = true;
+          this.socket.disconnect();
+          scene.scene.stop("TFDL");
+          scene.scene.transition({
+            target: "MacHall",
+            duration: 0,
+            data: scene.astronaut.nametag.text,
+            moveAbove: true,
+          });
+          console.log("Leaving TFDL");
+        }
       } else {
         // this.astronaut.anims.stop(null, true);
 

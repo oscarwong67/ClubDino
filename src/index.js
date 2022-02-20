@@ -30,8 +30,7 @@ class Game extends Phaser.Game {
 
     // Start the game with the mainscene
     // << START GAME WITH MAIN SCENE HERE >>
-    // this.scene.start("Start");
-    this.scene.start("MacHall");
+    this.scene.start("Start");
   }
 }
 // // const config = {
