@@ -48,7 +48,10 @@ export default class SpaceInvaders extends Phaser.Scene {
     this.load.image("invaders.ship", "assets/invaders/ship.png");
   }
 
-  create() {
+  create(prevscene) {
+    this.scene.setVisible(true)
+    this.scene.bringToTop();
+    this.prevscene = prevscene;
     this.anims.create({
       key: "bullet",
       frames: this.anims.generateFrameNumbers("invaders.bullet"),
@@ -82,6 +85,7 @@ export default class SpaceInvaders extends Phaser.Scene {
       Phaser.Input.Keyboard.KeyCodes.RIGHT
     );
 
+    const scene = this;
     
     this.quitButton = this.add.text(1000, 10, "quit", {
       fontSize: 15,
@@ -90,7 +94,15 @@ export default class SpaceInvaders extends Phaser.Scene {
       padding: 10,
       align: "center"
     }).setOrigin(0.5, 0).setInteractive();
-    this.quitButton.on('pointerup', function(){this.scene.scene.stop('SpaceInvaders')})
+    this.quitButton.on('pointerup', function(){
+      // this.scene.scene.sendToBack('SpaceInvaders');
+      console.log(scene)
+      this.scene.scene.stop();
+      this.scene.scene.setVisible(false);
+      
+      this.scene.prevscene.scene.physics.resume();
+      this.scene.prevscene.scene.creditsText.text = `Dino Creds: ${credits + 10}`;
+    })
 
     this.physics.world.setBounds(4, 22, 1000, 600);
 
