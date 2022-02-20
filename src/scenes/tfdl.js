@@ -192,10 +192,33 @@ export default class TFDL extends Phaser.Scene {
 
     scene.map.createLayer('floor', tilesets, 0, 0); // the key has to be the same name from the tiled .tmx file
     scene.wallsLayer = scene.map.createLayer("walls (collide)", tilesets, 0, 0);
-    scene.furnitureLayer = scene.map.createLayer("back furniture (collide)", tilesets, 0, 0);
+    scene.backFurnitureLayer = scene.map.createLayer("back furniture (collide)", tilesets, 0, 0);
+    scene.bottomChairsLayer = scene.map.createLayer(
+      "bottom chairs (no collide)",
+      tilesets,
+      0,
+      0
+    );
+    scene.furnitureLayer = scene.map.createLayer("furniture (collide)", tilesets, 0, 0);
+    scene.moreFurnitureLayer = scene.map.createLayer(
+      " more furniture (collide)",
+      tilesets,
+      0,
+      0
+    );
+    scene.evenMoreFurnitureLayer = scene.map.createLayer(
+      "even more furniture (no collide)",
+      tilesets,
+      0,
+      0,
+    );
+    scene.stuffOnTopLayer = scene.map.createLayer("stuff on top", tilesets, 0, 0);
+
 
     scene.wallsLayer.setCollisionByProperty({ collides: true });
+    scene.backFurnitureLayer.setCollisionByProperty({ collides: true });
     scene.furnitureLayer.setCollisionByProperty({ collides: true });
+    scene.moreFurnitureLayer.setCollisionByProperty({ collides: true });
 
 
 
