@@ -569,7 +569,7 @@ export default class TFDL extends Phaser.Scene {
         scene,
         scene.astronaut,
         scene.specialComputer,
-        "SpaceInvaders"
+        "SpaceInvadersStart"
       );
       scene.checkOverlap(
         scene,
