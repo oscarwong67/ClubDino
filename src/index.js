@@ -28,6 +28,7 @@ import GameBackground from './scenes/background'
 import GameOver from './scenes/gameover'
 
 import * as SceneKeys from './const/scenekeys'
+import SpaceInvadersStart from './scenes/space-invaders-start';
 
 
 class Game extends Phaser.Game {
@@ -39,6 +40,7 @@ class Game extends Phaser.Game {
     this.scene.add("TFDL", TFDL)
     this.scene.add("Start", Start)
     this.scene.add("SpaceInvaders", SpaceInvaders)
+    this.scene.add("SpaceInvadersStart", SpaceInvadersStart)
     this.scene.add("MacHall", MacHall);
     this.scene.add("TaskScene", TaskScene);
     this.scene.add("Idle", Idle);
