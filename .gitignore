@@ -60,6 +60,4 @@ jspm_packages/
 # next.js build output
 .next
 
-bundle.js
-
 bundle.js.map
