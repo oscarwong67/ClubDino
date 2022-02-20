@@ -36,11 +36,13 @@
     "compression": "^1.7.4",
     "express": "^4.17.3",
     "express-session": "^1.17.1",
+    "g": "^2.0.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "phaser": "^3.24.1",
     "socket.io": "^4.4.1",
-    "socket.io-client": "^3.0.3"
+    "socket.io-client": "^3.0.3",
+    "win-node-env": "^0.6.0"
   },
   "devDependencies": {
     "webpack-cli": "^4.9.2"
