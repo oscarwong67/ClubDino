@@ -13,6 +13,7 @@ export default class Start extends Phaser.Scene {
       "assets/spritesheets/amelia_idle.json"
     );
     this.load.html("usernameInput", "start.html");
+    this.load.image("logo", "assets/ClubDinoLogo.png");
   }
 
   init () {
@@ -37,7 +38,7 @@ export default class Start extends Phaser.Scene {
   create() {
     this.prepareCharacterAnimation();
     const scene = this;
-
+    this.logo = this.add.image(this.cameras.main.width/2, 200, "logo").setOrigin(0.5);
     this.textInput = this.add.dom(this.cameras.main.width/2, 600).createFromCache("usernameInput").setOrigin(0.5);
     this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     this.enterKey.on("down", event => {

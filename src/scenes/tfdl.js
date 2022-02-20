@@ -101,7 +101,8 @@ export default class TFDL extends Phaser.Scene {
       scene.deactivateControlPanel(controlPanel);
     } else {
       console.log('overlap');
-      scene.scene.start(SceneTitle, { ...scene.scene, socket: scene.socket });
+      scene.astronaut.y = controlPanel.y+50;
+      scene.scene.launch(SceneTitle, { ...scene.scene, socket: scene.socket });
       scene.physics.pause();
     }
   }
@@ -299,7 +300,7 @@ export default class TFDL extends Phaser.Scene {
 
 
     // TASKS
-    scene.specialComputer = scene.map.createFromObjects('special computer')[0];
+    scene.specialComputer = (scene.map.createFromObjects('special computer')[0]);
     scene.studyDesk = scene.map.createFromObjects('study desk')[0];
     scene.pinpongTable = scene.map.createFromObjects('pingpong table')[0];
     scene.pinpongTable.y = scene.pinpongTable.y + 90;
@@ -531,7 +532,7 @@ export default class TFDL extends Phaser.Scene {
         scene,
         scene.astronaut,
         scene.specialComputer,
-        "TaskScene"
+        "SpaceInvaders"
       );
       scene.checkOverlap(
         scene,

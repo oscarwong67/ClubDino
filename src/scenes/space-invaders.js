@@ -46,8 +46,6 @@ export default class SpaceInvaders extends Phaser.Scene {
     });
     this.load.image("invaders.mothership", "assets/invaders/mothership.png");
     this.load.image("invaders.ship", "assets/invaders/ship.png");
-
-    this.load.html("quitButton", "space-invaders.html");
   }
 
   create() {
@@ -85,9 +83,16 @@ export default class SpaceInvaders extends Phaser.Scene {
     );
 
     
-    this.quitButton = this.add.dom(1000, 10).createFromCache("quitButton").setOrigin(0.5);
+    this.quitButton = this.add.text(1000, 10, "quit", {
+      fontSize: 15,
+      backgroundColor: "#232323",
+      color: "#FFFFFF",
+      padding: 10,
+      align: "center"
+    }).setOrigin(0.5, 0).setInteractive();
+    this.quitButton.on('pointerup', function(){this.scene.scene.stop('SpaceInvaders')})
 
-    this.physics.world.setBounds(4, 22, 800, 600);
+    this.physics.world.setBounds(4, 22, 1000, 600);
 
     this.cameras.main.setBackgroundColor("#000");
 
@@ -95,7 +100,7 @@ export default class SpaceInvaders extends Phaser.Scene {
 
     this.bullet = this.physics.add.image(200, 290, "invaders.bullet2");
 
-    this.mothership = this.physics.add.image(900, 40, "invaders.mothership");
+    this.mothership = this.physics.add.image(1100, 40, "invaders.mothership");
 
     this.ship = this.physics.add.image(400, 500, "invaders.ship");
 
@@ -128,6 +133,7 @@ export default class SpaceInvaders extends Phaser.Scene {
     this.invaders.setVelocityX(50);
   }
 
+
   launchMothership() {
     this.mothership.setVelocityX(-100);
   }
@@ -145,7 +151,7 @@ export default class SpaceInvaders extends Phaser.Scene {
   bulletHitMothership(bullet, mothership) {
     this.launchBullet();
 
-    this.mothership.body.reset(900, 40);
+    this.mothership.body.reset(1100, 40);
   }
 
   refreshOutliers() {
@@ -274,7 +280,7 @@ export default class SpaceInvaders extends Phaser.Scene {
 
     var moveDown = false;
 
-    if (this.bottomRight && this.bottomRight.body.velocity.x > 0 && this.bottomRight.x >= 800) {
+    if (this.bottomRight && this.bottomRight.body.velocity.x > 0 && this.bottomRight.x >= 1000) {
       this.invaders.setVelocityX(-50);
       moveDown = true;
     } else if (this.topLeft && this.topLeft.body.velocity.x < 0 && this.topLeft.x <= 12) {
