@@ -72,7 +72,7 @@ export default class TFDL extends Phaser.Scene {
         end: 2,
         zeroPad: 2,
       }),
-      frameRate: 7,
+      frameRate: 4,
       repeat: -1,
     });
 
@@ -84,7 +84,7 @@ export default class TFDL extends Phaser.Scene {
         end: 5,
         zeroPad: 2,
       }),
-      frameRate: 7,
+      frameRate: 4,
       repeat: -1,
     });
 
@@ -96,7 +96,7 @@ export default class TFDL extends Phaser.Scene {
         end: 5,
         zeroPad: 2,
       }),
-      frameRate: 7,
+      frameRate: 4,
       repeat: -1,
     });
 
@@ -108,7 +108,7 @@ export default class TFDL extends Phaser.Scene {
         end: 5,
         zeroPad: 2,
       }),
-      frameRate: 7,
+      frameRate: 4,
       repeat: -1,
     });
 

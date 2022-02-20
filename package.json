@@ -44,7 +44,7 @@
     "phaser": "^3.24.1",
     "socket.io": "^4.4.1",
     "socket.io-client": "^3.0.3",
-    "webpack": "^5.69.1",
+    "webpack": "^5.69.1"
   },
   "devDependencies": {
     "webpack-cli": "^4.9.2"
