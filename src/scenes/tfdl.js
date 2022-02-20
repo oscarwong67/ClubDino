@@ -262,8 +262,7 @@ export default class TFDL extends Phaser.Scene {
 
     scene.wallsLayer.setCollisionByProperty({ collides: true });
     scene.backFurnitureLayer.setCollisionByProperty({ collides: true });
-    // scene.furnitureLayer.setCollisionByProperty({ collides: true });
-    scene.furnitureLayer.setCollisionByExclusion();
+    scene.furnitureLayer.setCollisionByProperty({ collides: true });
     scene.moreFurnitureLayer.setCollisionByProperty({ collides: true });
 
 
