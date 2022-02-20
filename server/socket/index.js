@@ -71,6 +71,15 @@ module.exports = (io) => {
         .emit("playerMoved", gameRooms[roomId].players[socket.id]);
     });
 
+    socket.on("playerStopped", function (data) {
+      const { x, y, roomId, direction } = data;
+      gameRooms[roomId].players[socket.id].x = x;
+      gameRooms[roomId].players[socket.id].y = y;
+      socket
+        .to(roomId)
+        .emit("otherPlayerStopped", gameRooms[roomId].players[socket.id], direction);
+    });
+
     // when a player disconnects, remove them from our players object
     socket.on("disconnect", function () {
       console.log('disconnecting player');
