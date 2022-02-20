@@ -50,7 +50,7 @@ export default class SpaceInvaders extends Phaser.Scene {
 
   create(prevscene) {
     this.scene.setVisible(true)
-    this.scene.bringToTop();
+    this.scene.bringToTop('SpaceInvaders');
     this.prevscene = prevscene;
     this.anims.create({
       key: "bullet",
@@ -87,26 +87,34 @@ export default class SpaceInvaders extends Phaser.Scene {
 
     const scene = this;
     
-    this.quitButton = this.add.text(1000, 10, "quit", {
-      fontSize: 15,
-      backgroundColor: "#232323",
-      color: "#FFFFFF",
-      padding: 10,
-      align: "center"
-    }).setOrigin(0.5, 0).setInteractive();
-    this.quitButton.on('pointerup', function(){
-      // this.scene.scene.sendToBack('SpaceInvaders');
-      console.log(scene)
-      this.scene.scene.stop();
-      this.scene.scene.setVisible(false);
+    // this.quitButton = this.add.text(1000, 10, "quit", {
+    //   fontSize: 15,
+    //   backgroundColor: "#232323",
+    //   color: "#FFFFFF",
+    //   padding: 10,
+    //   align: "center"
+    // }).setOrigin(0.5, 0).setInteractive();
+    // this.quitButton.on('pointerup', function(){
+    //   // this.scene.scene.sendToBack('SpaceInvaders');
+    //   console.log(scene)
+    //   this.scene.scene.stop();
+    //   this.scene.scene.setVisible(false);
       
-      this.scene.prevscene.scene.physics.resume();
-      // this.scene.prevscene.scene.creditsText.text = `Dino Creds: ${credits + 10}`;
-    })
+    //   this.scene.prevscene.scene.physics.resume();
+    //   // this.scene.prevscene.scene.creditsText.text = `Dino Creds: ${credits + 10}`;
+    // })
+
+    // const escQuit = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    // escQuit.on('down', function(){
+    //   scene.scene.stop();
+    //   scene.scene.setVisible(false);
+      
+    //   scene.prevscene.scene.physics.resume();
+    // })
 
     this.physics.world.setBounds(4, 22, 1000, 600);
 
-    this.cameras.main.setBackgroundColor("#000");
+    // this.cameras.main.setBackgroundColor("#000");
 
     this.createInvaders();
 
