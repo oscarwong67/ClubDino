@@ -12,6 +12,11 @@ const gameRooms = {
     players: {},
     numPlayers: 0,
     roomId: 'tfdl',
+  },
+  machall: {
+    players: {},
+    numPlayers: 0,
+    roomId: 'machall',
   }
 };
 
