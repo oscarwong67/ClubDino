@@ -14,6 +14,8 @@ export default class TFDL extends Phaser.Scene {
   create(prevscene) {
     const scene = this;
     this.add.image(525, 400, "panel");
+    this.scene.setVisible(true);
+    this.scene.bringToTop("Idle");
     this.prevscene = prevscene;
 
     const heading = scene.add
